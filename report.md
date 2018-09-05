@@ -20,11 +20,11 @@ Subsystems 2 to 4 will support the following functionalities:
     1. Password
     1. Role
 
+The log in system will be protected Google reCAPTCHA to prevent brute force attacks to access into the accounts of administrators.
+
 ---
 
 ## Subsystem 2 (Interface for Therapists & Patients)
-Interface will be written in HTML, PHP and SQL to allow database access. Google reCAPTCHA will be included to prevent bots from trying to mass access the system. Each unique user will have their own unique userID and password for login. Therapists and patients will have different login privileges as follow.
-
 Therapists:
 1. Able to list patients under their charge
 1. Select patients' records to view but not change
@@ -56,12 +56,6 @@ And the generated data:
 ![post-anonymised data](https://github.com/IFS4205-2018-Sem1-Team1/design-report/raw/master/images/post_anonymisation.png)
 
 Notice that this data has 2-anonymity with respect to the attributes `Age`, `Gender`, `Location` and `Steps`, but not for the attribute `Disease`.
-
-Interface will be written in HTML, PHP and SQL to allow database access. Google reCAPTCHA will be included to prevent bots from trying to mass access the system. Each unique user will have their own unique userID and password for login. Researchers and everyone else will have login privileges as follow.
-
-Researchers:
-1. Display information from database but unable to identify individuals
-1. Unable to edit nor modify medical records
 
 ## Subsystem 4 (Secure Transfer)
 
