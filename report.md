@@ -29,7 +29,7 @@ A sample POST query looks something like this:
 }
 ```
 
-The log in system will be protected Google reCAPTCHA to prevent brute force attacks to access into the accounts of administrators.
+The log in system will be protected with Google reCAPTCHA to prevent brute force attacks to access into the accounts of administrators.
 
 We will use GraphQL to facilitate communication between the Client & the Server. GraphQL is susceptible to:
 1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
