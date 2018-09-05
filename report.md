@@ -44,7 +44,7 @@ The authentication system is represented in Shiro by security-specific [Realms](
 
 Once the user is authenticated, a JWT will be generated for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under HTML5 Web Storage. When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
 
-If an incoming request contains no token, the request is denied from accessing any resources. If the request contains a token, the code will check if it is valid and if any of the checks fails, the request is denied. The JWT should be sent in an ‘Authorisation’ header using the ‘Bearer’ schema from JWT library. Since the token is sent in the ‘Authorisation header’, Cross-Origin Resource Sharing (CORS) will not be an issue to exploit as cookies are not used.
+If an incoming request contains no token, the request is denied from accessing any resources. If the request contains a token, the code will check if the information inside corresponds to an authorised user. If not, the request is denied. The JWT should be sent in an ‘Authorisation’ header using the ‘Bearer’ schema from JWT library. Since the token is sent in the ‘Authorisation header’, Cross-Origin Resource Sharing (CORS) will not be an issue to exploit as cookies are not used.
 
 The JWT will have the following features:
 1.	Signed with HMAC algorithm to prevent data tampering, thus preserving integrity
