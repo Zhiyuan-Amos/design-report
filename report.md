@@ -20,7 +20,25 @@ Subsystems 2 to 4 will support the following functionalities with the following 
     1. Password
     1. Role
 
+A sample POST query looks something like this:
+
+```
+{
+  "query": "registration",
+  "variables": { "ic": "someValue", ... }
+}
+```
+
 The log in system will be protected Google reCAPTCHA to prevent brute force attacks to access into the accounts of administrators.
+
+We will use GraphQL to facilitate communication between the Client & the Server. GraphQL is susceptible to:
+1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
+1. Broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
+
+We will also be protecting our system by:
+1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
+1. Disallowing executables to be uploaded into the database. 
+1. Using an anti-virus scanner to scan through image and video files that will be uploaded into the database.
 
 ---
 
@@ -46,6 +64,21 @@ This subsystem will support the functionality of retrieving anonymous data (impl
 1. Subtype
 1. Age
 1. Gender
+
+A sample GET query looks something like this:
+
+```
+{
+  anonymised_records( "location": "someValue", "subtype": "number of steps per day", ... ) {
+    location
+    subtype
+    gender
+    location
+    reading
+    disease
+  }
+}
+```
 
 The minimum, average and maximum values of `Age` & `Reading` will be automatically generated. Furthermore, with each retrieval, the order of the data will be randomised to make it harder to re-identify each person through piecing different parts of the data.
 
