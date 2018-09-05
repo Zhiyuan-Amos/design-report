@@ -51,7 +51,7 @@ Cookie-based authentication is stateful. This means that an authentication recor
 
 The JWT will have the following features:
 1.	Signed with HMAC algorithm to prevent data tampering, thus preserving integrity
-2.	Sent via HTTPS to ensure confidentiality of the data in the token
+1.	Sent via HTTPS to ensure confidentiality of the data in the token
 
 In addition, using HTTPS as our only mode of transfer across channels will prevent any potential leaks from HTML5 Web Storage during transfers. It also serves as a more efficient method to ensure traffic is encrypted instead of having to deploy encryption algorithms when transferring over unsecured HTTP routes.
 
