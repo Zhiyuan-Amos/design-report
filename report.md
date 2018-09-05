@@ -4,7 +4,7 @@
 
 ---
 
-Subsystems 2 to 4 will support the following functionalities:
+Subsystems 2 to 4 will support the following functionalities with the following parameters:
 
 1. Registration
     1. National Registration Identification Card (NRIC)
@@ -42,10 +42,10 @@ In addition, admin users are able to:
 
 ## Subsystem 3 (Interface for Researchers & Anyone)
 This subsystem will support the functionality of retrieving anonymous data (implemented through k-anonymity), which can be filtered by:
-    1. Location
-    1. Subtype
-    1. Age
-    1. Gender
+1. Location
+1. Subtype
+1. Age
+1. Gender
 
 The minimum, average and maximum values of `Age` & `Reading` will be automatically generated. Furthermore, with each retrieval, the order of the data will be randomised to make it harder to re-identify each person through piecing different parts of the data.
 
