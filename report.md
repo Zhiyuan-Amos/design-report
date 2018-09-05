@@ -42,6 +42,9 @@ As described above, Apache Shiro will be used to perform user permissions authen
 
 The authentication system is represented in Shiro by security-specific decentralised autonomous organisations (DAO), that are referred to as [Realms](https://shiro.apache.org/realm.html). A Realm is a component that can access application-specific security data such as users, roles, and permissions. The Realm translates this application-specific data into a format that Shiro understands so Shiro can in turn provide a single easy-to-understand Subject programming API.
 
+Once the user is authenticated, a JWT will be generated for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under HTML5 Web Storage. When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
+If an incoming request contains no token, the request is denied from accessing any resources. If the request contains a token, the code will check if it is valid and if any of the checks fails, the request is denied. The JWT should be sent in an ‘Authorisation’ header using the ‘Bearer’ schema from JWT library. Since the token is sent in the ‘Authorisation header’, Cross-Origin Resource Sharing (CORS) will not be an issue to exploit as cookies are not used.
+
 We will also be protecting our system by:
 1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
 1. Disallowing executables to be uploaded into the database. 
