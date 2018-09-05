@@ -2,6 +2,62 @@
 
 ## Subsystem 1 (MFA)
 
+MFA Tag Interfaces:
+1. RFDuino BLE API
+The RFduino device must include the #include <RFduinoBLE.h> command in order to make use of the RFduino BLE. 
+1. Arduino Cryptography Libraries
+
+Web App Interface:
+1. Web Bluetooth API 
+Access to Web Bluetooth API will be subject to permissions and it will only work in secure contexts. It only works with sites on HTTPS.  The connection to the device can only be called by a  user action like a click for example. 
+
+Communication protocol between the two devices:
+Digital Signature + Diffie Hellman Key Exchange + Symmetric Encryption
+
+Algorithms to be used:
+1. Ed25519 for digital signature - to be used for the tag from [Arduino Cryptography Libraries](https://rweather.github.io/arduinolibs/crypto.html) and for web app from [NaCL](https://github.com/dchest/tweetnacl-js#public-key-authenticated-encryption-box) and [Libsodium](https://github.com/jedisct1/libsodium.js)
+2. Curve25519 for getting shared key - to be used for web app from [here](https://github.com/indutny/elliptic)
+3. AES256 for encryption 
+
+Rationale: 
+A digital signature ensures integrity, authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of RAM. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html).  
+
+
+##### Assumptions to be made before any communication is made:
+Private and public keys that are stored initially are generated via the ED25519.
+
+The database contains:
+1. A private key linked to the user
+
+The MFA tag contains:
+1. A private key linked to the user
+1. The web app’s public key
+
+The web app contains: 
+1. Its own private key 
+2. Its own public key 
+
+
+For 2FA Access into Web App:
+1. User logs in with the correct log in credentials - username and password. 
+1. After that, the web app will request to pair with a BLE device nearby - which is the user’s 2FA token.  
+1. The web app would then attain the private key attributed to the user from the database and create a hash of it. 
+1. The web app would then use its own private key to sign it via ed25519. (Digital signature)
+1.  The web app and the MFA tag will then get a secret shared key using Diffie Helman Key Exchange. 
+1. The web app will then use AES with the shared key to encrypt the digital signature and send it over. 
+1. The MFA Tag would decrypt it.
+1.  The MFA Tag would use the web app’s public key to decrypt to get the hash. It can then check if the hash of its private key is the same as the hash sent to it. If it is, then the web app is said to be authenticated because only an authentic web app would have the private key of the user. 
+1. Next, to authenticate that the MFA tag really belongs to the user logging in, the MFA tag will use its private key to sign a hash of the web app’s public key. 
+1. MFA tag would then use AES with the shared key to encrypt the digital signature and send it over. 
+1. The web app would then decrypt and use the user’s public key to attain the hash value. It would then see if it matches the web app’s public key hash. If it does, it means that the MFA tag has the private key in it and belongs to the user. 
+1. Thus, the web server can log the user in. 
+
+For validating data:
+1. The web app and MFA tag acquire a secret shared key via the ECDH using the same curve - curve25519. 
+1. The eb app will create a digital signature for the hash of the data, together with the hash of the data, encrypt it via AES using the shared key and send it to the MFA tag. 
+The MFA tag checks if after decrypting it with the web app’s public key, the hash of the data match. 
+1. After authenticating the web app, the MFA tag will use its private key to sign a hash of the data, encrypt it and send to the web app.
+1. The web app will ensure that the MFA tag is authentic and then store the data in the file server. 
 ---
 
 Subsystems 2 to 4 will support the following functionalities with the following parameters:
