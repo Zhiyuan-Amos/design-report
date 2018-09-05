@@ -35,6 +35,11 @@ We will use GraphQL to facilitate communication between the Client & the Server.
 1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
 1. Broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
 
+As described above, Apache Shiro will be used to perform user permissions authentication in the following steps:
+1.	Collect the subject’s principals and credentials
+2.	Submit the principals and credentials to an authentication system.
+3.	Allow access, retry authentication, or block access
+
 We will also be protecting our system by:
 1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
 1. Disallowing executables to be uploaded into the database. 
