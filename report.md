@@ -40,6 +40,8 @@ As described above, Apache Shiro will be used to perform user permissions authen
 2.	Submit the principals and credentials to an authentication system.
 3.	Allow access, retry authentication, or block access
 
+The authentication system is represented in Shiro by security-specific decentralised autonomous organisations (DAO), that are referred to as [Realms](https://shiro.apache.org/realm.html). A Realm is a component that can access application-specific security data such as users, roles, and permissions. The Realm translates this application-specific data into a format that Shiro understands so Shiro can in turn provide a single easy-to-understand Subject programming API.
+
 We will also be protecting our system by:
 1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
 1. Disallowing executables to be uploaded into the database. 
