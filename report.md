@@ -37,9 +37,9 @@ We will use GraphQL to facilitate communication between the Client & the Server.
 
 ### Apache Shiro
 Apache Shiro will be used to perform user permissions authentication in the following steps:
-1.	Collect the subject’s principals and credentials
-2.	Submit the principals and credentials to an authentication system.
-3.	Allow access, retry authentication, or block access
+1. Collect the subject’s principals and credentials
+1. Submit the principals and credentials to an authentication system.
+1. Allow access, retry authentication, or block access
 
 The authentication system is represented in Shiro by security-specific [Realms](https://shiro.apache.org/realm.html). A Realm is a component that can access security data such as users, roles, and permissions. The Realm translates these data into a format that Shiro understands so Shiro can in turn provide a single easy-to-understand API.
 
