@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Therapist read Bob's Records</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <!-- Logo -->
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">IFS4205 TEAM 1 Health Record System</a>
+            </div>
+
+            <!-- Menu Items -->
+            <div>
+                <ul class="nav navbar-nav">
+
+                    <!-- drop down menu -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Profile <span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Notes <span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li class="active" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Patients<span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li  class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tickets<span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li  class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources <span class="caret"></span></a>
+                    </li>
+                </ul>
+
+                <!--right align -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Account Type: Therapist</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h2>My Patients > Bob</h2>
+        
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Subtype</th>
+                <th>Title</th>
+                <th>Date_time</th>
+                <th>Document</th>
+                <th>Owner</th>
+            </tr>
+            </thead>
+            <tbody>
+
+</tr>
+<tr>
+<td>Readings</td>
+<td>BP</td>
+<td>Dizzy spell</td>
+<td>12/8/2017 10:35:01</td>
+<td><a href="#">120/80</a></td>
+<td>Therapist John</td>
+</tr>
+<tr>
+<td>Images</td>
+<td>MRI</td>
+<td>LS spine S4</td>
+<td>12/8/2017 10:35:01</td>
+<td><a href="#">t1.jpg</a></td>
+<td>Therapist John</td>
+</tr>
+<tr>
+<td>Time series data</td>
+<td>Gait</td>
+<td>Left foot rotation</td>
+<td>12/8/2017 10:35:01</td>
+<td><a href="#">Recording</a></td>
+<td>Therapist Jane</td>
+</tr>
+<tr>
+<td>Movies</td>
+<td>Gait</td>
+<td>Assessment</td>
+<td>12/8/2017 10:35:01</td>
+<td><a href="#">t1.mpg</a></td>
+<td>Therapist Jane</td>
+</tr>
+<tr>
+<td>Documents</td>
+<td>Report</td>
+<td>Report on gait assessment</td>
+<td>12/8/2017 10:35:01,</td>
+<td><a href="#">t1.doc</a></td>
+<td>Therapist Doe</td>
+</tr>
+
+
+            
+            </tbody>
+        </table>
+
+    </div>
+
+<div class="container">
+    <div class="text-right">
+    <input class="btn btn-primary" class="btn float-right" type="button" value="Create">
+    <input class="btn btn-primary" type="submit" value="Edit">
+    <input class="btn btn-primary" type="reset" value="Print">    
+</div>
+</div>
+
+
+</body>
+</html>
