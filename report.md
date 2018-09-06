@@ -118,5 +118,24 @@ Notice that this data has 2-anonymity with respect to the attributes `Age`, `Gen
 
 ## Subsystem 4 (Secure Transfer)
 
+### Overview
+
+The other team will be given a special account (which is a type of user, such as `therapist` or `patient`) that can only perform one action: Upload their database to our database. 
+
+### Interface
+
+Upon logging into the special account, the other team will be redirected to a page whereby they can upload their database, image and video files separately. Our current database design is such that the image and video files are stored in a separate file system. The database stores the image and video file names. When a record is retrieved from the database, the server will also retrieve the corresponding image and video files based on their names.
+
+The data can be in tab-separated value (tsv), with the following values:
+1. Type
+1. Subtype
+1. Title
+1. Date_time
+1. Owner_ic
+1. Signature
+1. Content
+
+Where the file names will be stored in `Content`
+
 ## Subsystem 5 (Data Collection from Sensors)
 Use Android's accelerometer to track movement activity and upload data to system.
