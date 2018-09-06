@@ -41,8 +41,6 @@ Apache Shiro will be used to perform user permissions authentication in the foll
 1. Submit the principals and credentials to an authentication system.
 1. Allow access, retry authentication, or block access
 
-The authentication system is represented in Shiro by security-specific [Realms](https://shiro.apache.org/realm.html). A Realm is a component that can access security data such as users, roles, and permissions. The Realm translates these data into a format that Shiro understands so Shiro can in turn provide a single easy-to-understand API.
-
 ### JSON Web Token (JWT)
 Once the user is authenticated, a JWT will be generated for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under [HTML5 Web Storage](https://www.tutorialspoint.com/html5/html5_web_storage.htm). When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
 
