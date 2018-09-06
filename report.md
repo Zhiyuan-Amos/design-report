@@ -48,7 +48,7 @@ If an incoming request contains no token, the request is denied from accessing a
 
 This is because unlike cookie-based authentication which is stateful, token-based authentication is stateless, hence the server does not keep a record of which users are logged in or which JWTs have been issued. Instead, every request to the server is accompanied by a token which the server uses to verify the authenticity of the request.
 
-The JWT will have the following features:
+The JWT will be:
 1. Signed with HMAC algorithm to prevent data tampering, thus preserving integrity
 1. Sent via HTTPS to ensure confidentiality of the data in the token
 
