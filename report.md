@@ -35,7 +35,26 @@ We will use GraphQL to facilitate communication between the Client & the Server.
 1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
 1. Broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
 
-We will also be protecting our system by:
+### Apache Shiro
+Apache Shiro will be used to perform user permissions authentication in the following steps:
+1. Collect the subject’s principals and credentials
+1. Submit the principals and credentials to an authentication system.
+1. Perform either of the following: allow access or block access
+
+### JSON Web Token (JWT)
+Once the user is authenticated, a JWT will be generated in the client side for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under [HTML5 Web Storage](https://www.tutorialspoint.com/html5/html5_web_storage.htm). When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
+
+If an incoming request contains no token, the request is denied from accessing any resources. If the request contains a token, the server side code will check if the information inside corresponds to an authorised user. If not, the request is denied. The JWT should be sent in an ‘Authorisation’ header using the ‘Bearer’ schema in the [OAuth protocol](https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5). Since a token, instead of a cookie, is sent in the ‘Authorisation header’, Cross-Origin Resource Sharing (CORS) will not be a potential area for exploit.
+
+This is because unlike cookie-based authentication which is stateful, token-based authentication is stateless, hence the server does not keep a record of which users are logged in or which JWTs have been issued. Instead, every request to the server is accompanied by a token which the server uses to verify the authenticity of the request.
+
+The JWT will be:
+1. Signed with HMAC algorithm to prevent data tampering, thus preserving **integrity**
+1. Sent via HTTPS to ensure **confidentiality** of the data in the token
+
+In addition, using HTTPS as our only mode of transfer across channels will prevent any potential leaks from HTML5 Web Storage during transfers. It also serves as a more efficient method to ensure traffic is encrypted instead of having to deploy encryption algorithms when transferring over unsecured HTTP routes.
+
+We will be protecting our system by:
 1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
 1. Disallowing executables to be uploaded into the database. 
 1. Using an anti-virus scanner to scan through image and video files that will be uploaded into the database.
