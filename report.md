@@ -39,7 +39,7 @@ We will use GraphQL to facilitate communication between the Client & the Server.
 Apache Shiro will be used to perform user permissions authentication in the following steps:
 1. Collect the subject’s principals and credentials
 1. Submit the principals and credentials to an authentication system.
-1. Allow access, retry authentication, or block access
+1. Perform either of the following: allow access or block access
 
 ### JSON Web Token (JWT)
 Once the user is authenticated, a JWT will be generated from the user information and the JWT generation rule in the client side for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under [HTML5 Web Storage](https://www.tutorialspoint.com/html5/html5_web_storage.htm). When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
