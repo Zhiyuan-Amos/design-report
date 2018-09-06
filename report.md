@@ -22,7 +22,7 @@ Subsystems 2 to 4 will support the following functionalities with the following 
     1. Password
     1. Role
 
-A sample POST query looks something like this:
+A sample POST query using GraphQL looks something like this:
 
 ```
 {
@@ -37,9 +37,7 @@ The log in system will be protected with Google reCAPTCHA to prevent brute force
 
 #### GraphQL
 
-We will use GraphQL to facilitate communication between the Client & the Server. GraphQL is susceptible to:
-1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
-1. Broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
+We will use GraphQL to facilitate communication between the Client & the Server. GraphQL is susceptible to broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
 
 #### Apache Shiro
 Apache Shiro will be used to perform user permissions **authentication** in the following steps:
@@ -63,8 +61,9 @@ In addition, using HTTPS as our only mode of transfer across channels will preve
 ### Security for Server & Database Communication
 
 We will be protecting our system by:
-1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
+1. Using HTTPS to ensure confidentiality and integrity in data transfer.
 1. Disallowing executables to be uploaded into the database. 
+1. Sanitising user input. This helps to prevent SQL injections & XSS (especially if the input field is a custom type, such as JSON).
 1. Using an anti-virus scanner to scan through image and video files that will be uploaded into the database.
 
 ---
