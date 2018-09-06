@@ -49,8 +49,8 @@ If an incoming request contains no token, the request is denied from accessing a
 This is because unlike cookie-based authentication which is stateful, token-based authentication is stateless, hence the server does not keep a record of which users are logged in or which JWTs have been issued. Instead, every request to the server is accompanied by a token which the server uses to verify the authenticity of the request.
 
 The JWT will be:
-1. Signed with HMAC algorithm to prevent data tampering, thus preserving integrity
-1. Sent via HTTPS to ensure confidentiality of the data in the token
+1. Signed with HMAC algorithm to prevent data tampering, thus preserving **integrity**
+1. Sent via HTTPS to ensure **confidentiality** of the data in the token
 
 In addition, using HTTPS as our only mode of transfer across channels will prevent any potential leaks from HTML5 Web Storage during transfers. It also serves as a more efficient method to ensure traffic is encrypted instead of having to deploy encryption algorithms when transferring over unsecured HTTP routes.
 
