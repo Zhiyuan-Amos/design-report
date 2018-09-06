@@ -35,6 +35,7 @@ We will use GraphQL to facilitate communication between the Client & the Server.
 1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
 1. Broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
 
+### Apache Shiro
 Apache Shiro will be used to perform user permissions authentication in the following steps:
 1.	Collect the subject’s principals and credentials
 2.	Submit the principals and credentials to an authentication system.
@@ -42,6 +43,7 @@ Apache Shiro will be used to perform user permissions authentication in the foll
 
 The authentication system is represented in Shiro by security-specific [Realms](https://shiro.apache.org/realm.html). A Realm is a component that can access security data such as users, roles, and permissions. The Realm translates these data into a format that Shiro understands so Shiro can in turn provide a single easy-to-understand API.
 
+### JSON Web Token (JWT)
 Once the user is authenticated, a JWT will be generated for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under [HTML5 Web Storage](https://www.tutorialspoint.com/html5/html5_web_storage.htm). When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
 
 If an incoming request contains no token, the request is denied from accessing any resources. If the request contains a token, the code will check if the information inside corresponds to an authorised user. If not, the request is denied. The JWT should be sent in an ‘Authorisation’ header using the ‘Bearer’ schema in the [OAuth protocol](https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5). Since a token, instead of a cookie, is sent in the ‘Authorisation header’, Cross-Origin Resource Sharing (CORS) will not be a potential area for exploit.
