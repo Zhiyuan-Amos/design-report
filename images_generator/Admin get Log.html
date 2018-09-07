@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin get Log</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <!-- Logo -->
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">IFS4205 TEAM 1 Health Record System</a>
+            </div>
+
+            <!-- Menu Items -->
+            <div>
+                <ul class="nav navbar-nav">
+
+                    <!-- drop down menu -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Profile <span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li  class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">New Users<span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li class="active" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logs<span class="caret"></span></a>
+                    </li>
+                    <!-- drop down menu -->
+                    <li  class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources <span class="caret"></span></a>
+                    </li>
+                </ul>
+
+                <!--right align -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Account Type: Administrator</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h2>Retrieve Logs</h2>
+        <br>
+
+        <form>
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <label>Year</label>
+                    <select multiple class="form-control">
+                    <option>2018</option>
+                    <option>2017</option>
+                    <option>2016</option>
+                    <option>2015</option>
+                    <option>2014</option>
+                    <option>2013</option>
+                    <option>2012</option>
+                    <option>2011</option>
+                    <option>2010</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <div class="form-group">
+                <div class="col-xs-6">
+                    <label>Month</label>
+                    <select multiple class="form-control">
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+    <div class="container">
+        <div class="text-right">
+            <br>
+            <input class="btn btn-primary" class="btn float-right" type="button" value="Generate">
+        </div>
+    </div>
+
+</body>
+</html>
