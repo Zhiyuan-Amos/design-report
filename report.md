@@ -69,21 +69,55 @@ We will be protecting our system by:
 ---
 
 ## Subsystem 2 (Interface for Therapists & Patients)
-Therapists:
-1. Able to list patients under their charge
-1. Select patients' records to view but not change
+This subsystem provides the web interface that will be used by Therapists, Patients and Administrators to access the Health Record System.
+
+### Therapists Capabilities:
+1. List all patients under their charge
+1. Select and read patients' records only
 1. Create new records
 1. Edit their own created records
 1. Print out reports
 
-Patients:
-1. Able to view but not change their medical data
-1. Able to add/remove authorisation for therapist(s) to view any of their medical data
+### Therapist's Interface
+After logging in, therapists would be able to list all their patients under 'My Patient' tab.
+![Therapist list all Patients](https://github.com/IFS4205-2018-Sem1-Team1/design-report/blob/subsystem-2/images/Therapist%20-%20List%20their%20patients.PNG?raw=true)
 
-In addition, admin users are able to:
+The therapist can then click on the patient's name to view the specific patient's records.
+![therapist read Patient records](https://github.com/IFS4205-2018-Sem1-Team1/design-report/blob/subsystem-2/images/Therapist%20-%20Read%20Bob's%20Records.PNG?raw=true)
+
+- On this page, the therapist would have an overview of all the records of that Patient that the therapist has been given permission to view.
+- The therapist would only have read-only access to the records not owned by the therapist, and write access to records create by the therapist.
+- 'Owner' tab indicates which therapist created that record.
+- To retrieve the files to read the full details of the record, the therapist can click on the filename under the 'Document' tab.
+- The therapist can also use this interface to 'Create' new records and notes, 'Edit' them, and 'Print' these records.
+
+### Patients Capabilities:
+1. Able to view but not change their medical records
+1. Able to add/remove authorisation for therapist(s) to view any of their medical data
+1. Able to add notes about their records
+1. Print out reports
+
+### Patient's Interface
+After logging in, Patients would be able to view all their personal health records under 'My Records' tab.
+![Patient personal records](https://github.com/IFS4205-2018-Sem1-Team1/design-report/blob/subsystem-2/images/Patient%20-%20Personal%20Records.PNG?raw=true)
+
+- Patients would only have read-only access to these records.
+- They can also view the detailed records by clicking on the filename under the 'Document' tab.
+- Patients would be able to add records specific notes that their therapist would be able to read.
+- 'Permission' tab indicates which therapist they have already allowed access to that specific record.
+- Permission can be changed with the 'Add/Remove' button under the 'Change Permissions' tab.
+- Patients would also have the ability to print their records
+
+### Administrators Capabilities:
 1. Add users to the system
 1. Display logs of all transactions in the system
 
+### Administrator's Interface
+After logging in, Administrators would be able to add new users under the 'New Users' tab.
+![Admin add New Users](https://github.com/IFS4205-2018-Sem1-Team1/design-report/blob/subsystem-2/images/Admin%20-%20Add%20New%20User.PNG?raw=true)
+
+Administrators would also be able to generate monthly logs by choosing the right Year and Month under the 'Logs' tab.
+![Admin get log](https://github.com/IFS4205-2018-Sem1-Team1/design-report/blob/subsystem-2/images/Admin%20-%20Get%20Log.PNG?raw=true)
 ## Subsystem 3 (Interface for Researchers & Anyone)
 This subsystem will support the functionality of retrieving anonymous data (implemented through k-anonymity), which can be filtered by:
 1. Location
@@ -157,3 +191,4 @@ The enctype = “multipart/form-datavalue” is required for uploading files in
 
 The MFA tag will have to be nearby so that the web app can ensure that the patient is who he/she says he/she is (refer to Subsystem 1). 
 After validating that the data belongs to the patient because of the tag, the web app will send the file to the server code. 
+
