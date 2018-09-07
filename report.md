@@ -12,16 +12,16 @@ Web App Interface:
 Access to Web Bluetooth API will be subject to permissions and it will only work in secure contexts. It only works with sites on HTTPS.  The connection to the device can only be called by a  user action like a click for example. 
 
 Communication protocol between the two devices:  
-Digital Signature + Diffie Hellman Key Exchange + Symmetric Encryption
+Digital Signature + Key Exchange + Symmetric Encryption
 
 Algorithms to be used:
 1. Ed25519 for digital signature - to be used for the tag from [Arduino Cryptography Libraries](https://rweather.github.io/arduinolibs/crypto.html) and for web app from [NaCL](https://github.com/dchest/tweetnacl-js#public-key-authenticated-encryption-box) and [Libsodium](https://github.com/jedisct1/libsodium.js)
 1. Curve25519 for getting shared key - to be used for web app from [here](https://github.com/indutny/elliptic)
 1. AES256 for encryption 
-1. SHA256 for hashing
+1. SHA256 for cryptographic hashing
 
 Rationale:  
-A digital signature ensures integrity, authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of RAM. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html). 
+A digital signature ensures integrity, authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of memory. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html). 
 
 
 ##### Assumptions to be made before any communication is made:
