@@ -139,7 +139,7 @@ Where the file names will be stored in `Content`.
 
 ### Security Issues
 
-We will ensure that the upload stream be restricted to the use of HTTPS so that traffic towards our database is encrypted and not susceptible to sniffing from an external party, thus preserving **confidentiality**. In addition, the data will be digitally signed using the HMAC algorithm during upload. The digital signature can then be checked at the receiving end of the upload channel to detect whether the message has been deliberately modified, thus preserving **integrity**.
+The upload stream will be restricted to the use of HTTPS so that traffic towards our database is encrypted and not susceptible to sniffing from an external party, thus preserving **confidentiality**. In addition, the data will be digitally signed using the HMAC algorithm embedded within HTTPS during upload. The digital signature can then be checked at the receiving end of the upload channel to detect whether the message has been deliberately modified, thus preserving **integrity**.
 
 As we are using MySQL for our database management system, there would not be a problem for people to update and transfer records from their database to ours as these actions would generally conform to the basis of [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete). In addition, our interface description is simple enough to understand and be used by people.
 
