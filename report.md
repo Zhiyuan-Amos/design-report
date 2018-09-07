@@ -4,6 +4,8 @@
 
 ---
 
+## Subsystems 2 to 4 Overview
+
 Subsystems 2 to 4 will support the following functionalities with the following parameters:
 
 1. Registration
@@ -20,7 +22,7 @@ Subsystems 2 to 4 will support the following functionalities with the following 
     1. Password
     1. Role
 
-A sample POST query looks something like this:
+A sample POST query using GraphQL looks something like this:
 
 ```
 {
@@ -31,18 +33,20 @@ A sample POST query looks something like this:
 
 The log in system will be protected with Google reCAPTCHA to prevent brute force attacks to access into the accounts of administrators.
 
-We will use GraphQL to facilitate communication between the Client & the Server. GraphQL is susceptible to:
-1. SQL injections & XSS (especially if the input field is a custom type, such as JSON). Therefore, we will need to sanitise user input.
-1. Broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
+### Security for Client & Server Communication
 
-### Apache Shiro
-Apache Shiro will be used to perform user permissions authentication in the following steps:
+#### GraphQL
+
+We will use GraphQL to facilitate communication between the Client & the Server. GraphQL is susceptible to broken Access Controls. GraphQL does not verify whether a user has the permissions to retrieve sensitive data such as the password of the user, etc. Therefore, we will be using Apache Shiro to perform user permissions authentication.
+
+#### Apache Shiro
+Apache Shiro will be used to perform user permissions **authentication** in the following steps:
 1. Collect the subject’s principals and credentials
 1. Submit the principals and credentials to an authentication system.
 1. Perform either of the following: allow access or block access
 
-### JSON Web Token (JWT)
-Once the user is authenticated, a JWT will be generated in the client side for authorisation. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under [HTML5 Web Storage](https://www.tutorialspoint.com/html5/html5_web_storage.htm). When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
+#### JSON Web Token (JWT)
+Once the user is authenticated, a JWT will be generated in the client side for **authorisation**. This JWT will be used along the channels between Client and Server, Server and Database. In addition, the JWT will be stored in a session storage under [HTML5 Web Storage](https://www.tutorialspoint.com/html5/html5_web_storage.htm). When the browser window is closed, the user will be automatically logged out. The JWT will be removed and becomes invalid.
 
 If an incoming request contains no token, the request is denied from accessing any resources. If the request contains a token, the server side code will check if the information inside corresponds to an authorised user. If not, the request is denied. The JWT should be sent in an ‘Authorisation’ header using the ‘Bearer’ schema in the [OAuth protocol](https://help.salesforce.com/articleView?id=remoteaccess_oauth_jwt_flow.htm&type=5). Since a token, instead of a cookie, is sent in the ‘Authorisation header’, Cross-Origin Resource Sharing (CORS) will not be a potential area for exploit.
 
@@ -54,9 +58,12 @@ The JWT will be:
 
 In addition, using HTTPS as our only mode of transfer across channels will prevent any potential leaks from HTML5 Web Storage during transfers. It also serves as a more efficient method to ensure traffic is encrypted instead of having to deploy encryption algorithms when transferring over unsecured HTTP routes.
 
+### Security for Server & Database Communication
+
 We will be protecting our system by:
-1. Using HTTPS to ensure confidentiality in data transfer between the Client & the Server.
+1. Using HTTPS to ensure confidentiality and integrity in data transfer.
 1. Disallowing executables to be uploaded into the database. 
+1. Sanitising user input. This helps to prevent SQL injections & XSS (especially if the input field is a custom type, such as JSON).
 1. Using an anti-virus scanner to scan through image and video files that will be uploaded into the database.
 
 ---
@@ -110,6 +117,29 @@ And the generated data:
 Notice that this data has 2-anonymity with respect to the attributes `Age`, `Gender`, `Location` and `Steps`, but not for the attribute `Disease`.
 
 ## Subsystem 4 (Secure Transfer)
+
+### Overview
+
+The other team will be given a special account (which is a type of user, such as `therapist` or `patient`) that can only perform one action: Upload their database to our database. 
+
+### Interface
+
+Upon logging into the special account, the other team will be redirected to a page whereby they can upload their database, image and video files separately. Our current database design is such that the image and video files are stored in a separate file system. The database stores the image and video file names. When a record is retrieved from the database, the server will also retrieve the corresponding image and video files based on their names.
+
+The data can be in tab-separated value (tsv), with the following values:
+1. Type
+1. Subtype
+1. Title
+1. Date_time
+1. Owner_ic
+1. Signature
+1. Content
+
+Where the file names will be stored in `Content`.
+
+### Security Issues
+
+The upload stream will be restricted to the use of HTTPS so that traffic towards our database is encrypted and not susceptible to sniffing from an external party, thus preserving **confidentiality**. In addition, the data will be digitally signed using the HMAC algorithm embedded within HTTPS during upload. The digital signature can then be checked at the receiving end of the upload channel to detect whether the message has been deliberately modified, thus preserving **integrity**.
 
 ## Subsystem 5 (Data Collection from Sensors)
 Use Android's accelerometer to track movement activity and upload data to system.
