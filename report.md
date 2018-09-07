@@ -135,7 +135,11 @@ The data can be in tab-separated value (tsv), with the following values:
 1. Signature
 1. Content
 
-Where the file names will be stored in `Content`
+Where the file names will be stored in `Content`.
+
+### Security Issues
+
+We will ensure that the upload stream be restricted to the use of HTTPS so that traffic towards our database is encrypted and not susceptible to sniffing from an external party. In addition, the data will be digitally signed using the HMAC algorithm during upload. The digital signature can then be checked at the receiving end of the upload channel to detect whether the message has been deliberately modified.
 
 ## Subsystem 5 (Data Collection from Sensors)
 Use Android's accelerometer to track movement activity and upload data to system.
