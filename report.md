@@ -3,53 +3,53 @@
 ## Subsystem 1 (MFA)
 
 MFA Tag Interfaces:
-1. RFDuino BLE API  
+1. RFDuinoBLE API  
 The RFduino device must include the #include <RFduinoBLE.h> command in order to make use of the RFduino BLE. 
 1. Arduino Cryptography Libraries
 
 Web App Interface:
 1. Web Bluetooth API  
-Access to Web Bluetooth API will be subject to permissions and it will only work in secure contexts. It only works with sites on HTTPS.  The connection to the device can only be called by a  user action like a click for example. 
+Access to Web Bluetooth API will be subject to permissions and it will only work in secure contexts. It only works with sites on HTTPS.  The connection to the device can only be called by a user action such as a click. 
 
-Communication protocol between the two devices:  
-Digital Signature + Key Exchange + Symmetric Encryption
+Communication protocol involved between the tag and the web app:  
+Digital Signature
 
 Algorithms to be used:
 1. Ed25519 for digital signature - to be used for the tag from [Arduino Cryptography Libraries](https://rweather.github.io/arduinolibs/crypto.html) and for web app from [NaCL](https://github.com/dchest/tweetnacl-js#public-key-authenticated-encryption-box) and [Libsodium](https://github.com/jedisct1/libsodium.js)
-1. Curve25519 for getting shared key - to be used for web app from [here](https://github.com/indutny/elliptic)
-1. AES256 for encryption 
-1. SHA256 for cryptographic hashing
+1. SHA256 for hashing
 
 Rationale:  
-A digital signature ensures integrity, authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of memory. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html). 
+A digital signature ensures authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of RAM. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html). 
 
 
 ##### Assumptions to be made before any communication is made:
-Private and public keys that are stored initially are generated via the ED25519.
+Private and public keys that are stored initially are generated via the ED25519. Since the 2FA tags are issued by the us, we could obtain the patient's public key from the tag and store the web app's public key in the tag manually without the need for transmission of the keys. This eliminates the risk of malicious parties intercepting and giving incorrect public keys if the keys were to be transmitted instead. 
 
 Before the communication begins:  
-The database contains:
-1. A hash of the private key with salt linked to the user
 
-The MFA tag contains:
-1. A private key linked to the user
+The 2FA tag contains:
+1. The patient's private key
 1. The web app’s public key
 
-The web app contains: 
-1. Its own private key 
-1. Its own public key 
+The database of the web app contains: 
+1. The web app's private key 
+1. The web app's public key 
+1. The patient's public key
 
 
-For 2FA Login into Web App: (only MFA tag needs to be authenticated to belong to the user)
-1. User logs in with the correct log in credentials - username and password. 
-1. After that, the web app will request to pair with a BLE device nearby - which is the user’s 2FA token.  
-1. To authenticate that the MFA tag really belongs to the user logging in, we need to ensure that the MFA tag has the private key of the user. The MFA tag will use its private key to sign a hash of a random message. 
-1.  The web app and the MFA tag will then get a secret shared key using Diffie Helman Key Exchange. 
-1. The MFA tag would then use AES with the shared key to encrypt the digital signature and send it over. 
-1. The web app would then decrypt and use the user’s public key to attain the hash value of the random message. It would also compute the hash of that random message and then it would then see if the hashes match. If they match, it means that the MFA tag has the private key in it and it belongs to the user because only it is able to sign it with the private key. 
-1. Thus, the web server can log the user in. 
+For 2FA Login into Web App: (both web app and 2FA tag need to be authenticated to be correct)
+1. User logs in with the correct log-in credentials: username and password. 
+1. After that, the web app will request to pair with a BLE device nearby (which is the user’s 2FA tag).  
+1. To authenticate that the 2FA tag really belongs to the user logging in, we need to ensure that the 2FA tag has the private key of the user. To do so, the web app first generates a random message and appends it to the number '1' (to distinguish from other request(s) such as the request for the validation of health records).
+1. The web app then signs the pair with its private key using Ed25519, append the signature to the data prior to signing and sends over to the 2FA tag it has connected with.
+1. Upon receiving the data with the signature, the 2FA tag decrypts the signature of the web app with the web app's public key using Ed25519. It compares the data with the decrypted signature to ensure integrity and authenticity of the data.
+1. After successful verification, the 2FA tag hashes the random message generated using SHA256, signs the hash with the patient's private key using Ed25519 and sends only the signature back to the web app.
+1. Upon receiving the signature from the 2FA tag, the web app hashes random message it generated and decrypts the signature with the patient's private key using Ed25519.
+1. The web app compares the hash it obtained with the value it obtained from the decryption.
+1. If both values match, the web app logs the patient in. 
 
-For validating data: (both web app and MFA tag need to be authenticated to be correct)
+
+For validating data: (both web app and 2FA tag need to be authenticated to be correct)
 1. The web app and MFA tag acquire a secret shared key via the ECDH using the same curve - curve25519. 
 1. The web app will create a digital signature for the hash of the data, together with the hash of the data, encrypt it via AES using the shared key and send it to the MFA tag. 
 1. The MFA tag checks if after decrypting it with the web app’s public key, the hash of the data match. 
@@ -60,7 +60,7 @@ For validating data: (both web app and MFA tag need to be authenticated to be co
 Subsystems 2 to 4 will support the following functionalities with the following parameters:
 
 1. Registration
-    1. National Registration Identification Card (NRIC)
+    1. National Registration Identification Card (NRIC) number
     1. Name
     1. Email
     1. Phone
@@ -69,7 +69,7 @@ Subsystems 2 to 4 will support the following functionalities with the following 
     1. Role
 
 1. Log In
-    1. NRIC
+    1. NRIC number
     1. Password
     1. Role
 
