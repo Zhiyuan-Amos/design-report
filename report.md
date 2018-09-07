@@ -169,7 +169,26 @@ The data can be in tab-separated value (tsv), with the following values:
 1. Signature
 1. Content
 
-Where the file names will be stored in `Content`
+Where the file names will be stored in `Content`.
+
+### Security Issues
+
+The upload stream will be restricted to the use of HTTPS so that traffic towards our database is encrypted and not susceptible to sniffing from an external party, thus preserving **confidentiality**. In addition, the data will be digitally signed using the HMAC algorithm embedded within HTTPS during upload. The digital signature can then be checked at the receiving end of the upload channel to detect whether the message has been deliberately modified, thus preserving **integrity**.
 
 ## Subsystem 5 (Data Collection from Sensors)
-Use Android's accelerometer to track movement activity and upload data to system.
+2 sets of upload data: 
+1. Video
+1. Phone accelerometer (Android's accelerometer)
+
+Assumptions made:  
+The tag must be near the patient when the patient is trying to upload the data up to the database. 
+
+Interfaces:
+1. HTTP POST method  
+The enctype = “multipart/form-datavalue” is required for uploading files in forms.
+1. [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to post the data to the url we specified, which will be the server code. 
+1. FileUploadController for Java Spring Boot
+
+The MFA tag will have to be nearby so that the web app can ensure that the patient is who he/she says he/she is (refer to Subsystem 1). 
+After validating that the data belongs to the patient because of the tag, the web app will send the file to the server code. 
+
