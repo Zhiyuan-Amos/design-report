@@ -16,10 +16,10 @@ Digital Signature
 
 Algorithms to be used:
 1. Ed25519 for digital signature - to be used for the tag from [Arduino Cryptography Libraries](https://rweather.github.io/arduinolibs/crypto.html) and for web app from [NaCL](https://github.com/dchest/tweetnacl-js#public-key-authenticated-encryption-box) and [Libsodium](https://github.com/jedisct1/libsodium.js)
-1. SHA256 for hashing
+1. SHA256 for cryptographic hashing
 
 Rationale:  
-A digital signature ensures authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of RAM. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html). 
+A digital signature ensures authentication and non-repudiation. We cannot afford to use RSA on the rfduino board due to the lack of memory. In fact, ed25519 seems to have many [benefits](https://risan.io/upgrade-ssh-key-to-ed25519.html). 
 
 
 ##### Assumptions to be made before any communication is made:
@@ -39,8 +39,8 @@ The database of the web app contains:
 
 For 2FA Login into Web App: (both web app and 2FA tag need to be authenticated to be correct)
 1. User logs in with the correct log-in credentials: username and password. 
-1. After that, the web app will request to pair with a BLE device nearby (which is the user’s 2FA tag).  
-1. To authenticate that the 2FA tag really belongs to the user logging in, we need to ensure that the 2FA tag has the private key of the user. To do so, the web app first generates a random message and appends it to the number '1' (to distinguish from other request(s) such as the request for the validation of health records).
+1. After that, the web app requests to pair with a BLE device nearby (which is the patient’s 2FA tag).  
+1. To authenticate that the 2FA tag really belongs to the patient logging in, we need to ensure that the 2FA tag has the private key of the patient. To do so, the web app first generates a random message and appends it to the number '1' (to distinguish from other request(s) such as the request for the validation of health records).
 1. The web app then signs the pair with its private key using Ed25519, append the signature to the data prior to signing and sends over to the 2FA tag it has connected with.
 1. Upon receiving the data with the signature, the 2FA tag decrypts the signature of the web app with the web app's public key using Ed25519. It compares the data with the decrypted signature to ensure integrity and authenticity of the data.
 1. After successful verification, the 2FA tag hashes the random message generated using SHA256, signs the hash with the patient's private key using Ed25519 and sends only the signature back to the web app.
@@ -49,12 +49,15 @@ For 2FA Login into Web App: (both web app and 2FA tag need to be authenticated t
 1. If both values match, the web app logs the patient in. 
 
 
-For validating data: (both web app and 2FA tag need to be authenticated to be correct)
-1. The web app and MFA tag acquire a secret shared key via the ECDH using the same curve - curve25519. 
-1. The web app will create a digital signature for the hash of the data, together with the hash of the data, encrypt it via AES using the shared key and send it to the MFA tag. 
-1. The MFA tag checks if after decrypting it with the web app’s public key, the hash of the data match. 
-1. After authenticating the web app, the MFA tag will use its private key to sign a hash of the data, encrypt it and send to the web app.
-1. The web app will ensure that the MFA tag is authentic and then store the data in the file server. 
+For validating health records: (both web app and 2FA tag need to be authenticated to be correct)
+1. To implement the system of validation of patients' health records, patients have to sign their own health records. First, the web app pairs with a BLE device nearby (which is the patient’s tag) and hashes the health record to be signed using SHA256.
+1. The web app appends the hash to the number '2' (to distinguish from other request(s) such as the request for the 2FA login) and signs it with its private key using Ed25519.
+1. The web app appends the signature to the data ('2' and the hash value) and sends it over to the tag.
+1. Upon receiving the data with the signature, the tag decrypts the signature of the web app with the web app's public key using Ed25519. It compares the data with the decrypted signature to ensure integrity and authenticity of the data.
+1. After successful verification, the tag signs the hashed health record with the patient's private key using Ed25519 and sends only the signature back to the web app.
+1. Upon receiving the signature from the tag, the web app decrypts the signature with the patient's public key using Ed25519 and compares the value obtained with the hash the web app generated in the first step.
+1. If both match, the signature is authenticated and the web app stores the signature as an attribute of the health record in its database.
+
 ---
 
 Subsystems 2 to 4 will support the following functionalities with the following parameters:
@@ -66,6 +69,7 @@ Subsystems 2 to 4 will support the following functionalities with the following 
     1. Phone
     1. Address
     1. Age
+    1. Gender
     1. Role
 
 1. Log In
