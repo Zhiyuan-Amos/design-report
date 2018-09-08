@@ -248,7 +248,7 @@ The upload stream will be restricted to the use of HTTPS so that traffic towards
 1. Phone accelerometer (Android's accelerometer)
 
 Assumptions made:  
-The tag must be near the patient when the patient is trying to upload the data up to the database. 
+The tag must be near the patient when the patient is trying to upload the data up to the database. The MFA tag will have to be nearby so that the web app can ensure that the patient is who he says he is (refer to Subsystem 1).
 
 Interfaces:
 1. HTTP POST method  
@@ -256,6 +256,15 @@ The enctype = “multipart/form-datavalue” is required for uploading files in
 1. [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to post the data to the url we specified, which will be the server code. 
 1. FileUploadController for Java Spring Boot
 
-The MFA tag will have to be nearby so that the web app can ensure that the patient is who he/she says he/she is (refer to Subsystem 1). 
-After validating that the data belongs to the patient because of the tag, the web app will send the file to the server code. 
+Uploading process:
+1. The patient selects the type of record (Reading, Image, Time series data, Movie and Document) to upload on the web page and fills in the form provided by the web app.
+1. For images and movies, only certain extension types are allowed. For instance, only mp4 and avi files are allowed for movies. The patient is then required by the web page to upload the image or movie.
+1. The client does a check on the file type of the image or movie uploaded by checking the its extension. If valid, the uploading will be successful and the patient is allowed to click the submit button.
+1. The patient clicks the submit button and is prompted by the web page to have his tag near the device with the web app.
+1. When the patient brings his tag near the device with the web app, the tag will pair with the web app and sign the uploaded image or movie (refer to the part "For validating health records" of Subsystem 1).
+1. After verifying that the image or movie had been signed by the patient, the form along with the signature will be submitted to the server through HTTPS (to ensure confidentiality of the health record).
+1. The web server then checks the file type of the uploaded image or movie again and scans it for virus using an Anti-virus software.
+1. If valid and virus-free, the web server stores the image or movie in its file system and stores the link to it in the file system as the "content" attribute of the health record and other details in the form (including the signature) in the database.
+1. For records other than images and movies, the "content" field of the form is required to be filled in instead (no files will be uploaded). The "content" field will be signed by the tag in a similar way and will correspond directly to the "content" attribute of the health record after being transferred to the database.
+
 
